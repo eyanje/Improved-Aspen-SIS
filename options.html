@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Options for Improved SIS</title>
+    <style>
+      tr {
+        min-height: 1em;
+      }
+      td {
+        border: 2px solid black;
+      }
+      p#notif {
+        padding: 5px;
+        background-color: lightgreen;
+        visibility: hidden;
+      }
+      section {
+        margin: 1em 0;
+        padding: 1em;
+      }
+      #new-classes {
+        background-color: lightcoral;
+      }
+      #total-options {
+        background-color: lightblue;
+      }
+    </style>
+    <link rel="favicon" href="icon64.png" />
+  </head>
+  <body>
+    <h1>Improved SIS 0.5</h1>
+    <p id="notif">Settings saved</p>
+    <section id="new-classes">
+      <h2>Added Classes</h2>
+      <table>
+        <thead>
+          <th>Description (Class Name)</th>
+          <th>Class (ID)</th>
+          <th>Term</th>
+          <th>Primary Staff > Name</th>
+          <th>Clssrm</th>
+          <th>Term Performance</th>
+          <th>Abs</th>
+          <th>Tdy</th>
+          <th>Dsm</th>
+          <th>3-Letter Code</th>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+      <button id="addRow">Add Class</button>
+      <p>NOTE: Blank rows are automatically deleted</p>
+    </section>
+    <section id="total-options">
+      <h2>Total counter</h2>
+      <p>Included added classes: <input type="checkbox" id="includeAdded"></p>
+    </section>
+    <button id="save">Save</button>
+    <button id="restore">Restore</button>
+    <script src="options.js"></script>
+  </body>
+</html>

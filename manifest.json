@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "Improved SIS",
+  "version": "0.4",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon64.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://sis.mybps.org/*", "https://sis.mybps.org/*"],
+      "css": ["sis.css"],
+      "js": ["content.js","addclass.js"]
+    },
+    {
+      "matches": ["https://sis.mybps.org/aspen/portalClassList.do","https://sis.mybps.org/aspen/portalClassList.do?navkey=academics.classes.list"],
+      "js": ["addclass.js","classes.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "sis.css"
+  ]
+}
