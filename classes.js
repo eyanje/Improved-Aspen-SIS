@@ -47,6 +47,21 @@ function calcAvg() {
   var tBodyElement = tableElement.firstElementChild;
   var rows = tBodyElement.children;
   var grades = [];
+  var gpas = [];
+  var gpaConversions = [
+    [97, 4.3],
+    [93, 4.0],
+    [90, 3.7],
+    [87, 3.3],
+    [83, 3.0],
+    [80, 2.7],
+    [77, 2.3],
+    [73, 2.0],
+    [70, 1.7],
+    [67, 1.3],
+    [63, 1.0],
+    [60, 0.7]
+  ];
   var absent = 0;
   var tardy = 0;
   var dismissed = 0;
@@ -60,12 +75,31 @@ function calcAvg() {
 
     var tds = row.children;
     
+    if (tds[1].innerText.includes("Physical Education") || tds[1].innerText.includes("String") || tds[1].innerText.includes("Declamation")
+      || tds[1].innerText.includes("Homeroom") || tds[1].innerText.includes("Study")) {
+      continue;
+    }
+
     var grade = parseFloat(tds[6].innerText);
+
+    var gpa = 0;
+    if (!isNaN(grade)) { // if the grade exists, add the gpa
+      for (var j = 0; j < gpaConversions.length; j++) {
+        var gpaConversion = gpaConversions[j];
+        if (grade >= gpaConversion[0]) {
+          gpa = gpaConversion[1];
+          break;
+       }
+      }
+    }
+
     if (tds[1].innerText.includes("AP")) {
       grade += 10;
+      gpa++;
     }
     if (!isNaN(grade)) {
       grades.push(grade);
+      gpas.push(gpa);
     }
 
     var abs = parseInt(tds[7].innerText);
@@ -85,13 +119,16 @@ function calcAvg() {
   for (var i = 0; i < grades.length; i++) {
     average += grades[i] / grades.length;
   }
-  var gpa = average / 100 * 4.13;
+  var gpa = 0;
+  for (var i = 0; i < gpas.length; i++) {
+    gpa += gpas[i] / gpas.length;
+  }
   var averageSpan = document.createElement("span");
   styleAvgCalc(averageSpan);
-  averageSpan.innerHTML = "Average " + average.toPrecision(2);
+  averageSpan.innerHTML = "Average " + average.toPrecision(Math.floor(Math.log(gpa)/Math.log(10)) + 4);
   var gpaSpan = document.createElement("span");
   styleAvgCalc(gpaSpan);
-  gpaSpan.innerHTML = "GPA " + gpa.toPrecision(2);
+  gpaSpan.innerHTML = "GPA " + gpa.toPrecision(Math.floor(Math.log(gpa)/Math.log(10)) + 3);
   var dataString = averageSpan.outerHTML + gpaSpan.outerHTML;
   addClass("<strong>Total</strong>", "WT-AVG", "FY", "Various", "Various", dataString, absent, tardy, dismissed, "avg");
   // TODO add absent, dismissed, etc.
