@@ -1,4 +1,4 @@
-<h1>Improved Aspen/SIS 0.5</h1>
+<h1>Improved Aspen/SIS</h1>
 
 <h2>What is Aspen/SIS?</h2>
 <p>
