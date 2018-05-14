@@ -55,7 +55,11 @@ function saveClasses() {
       settings[i][j] = tds[j].firstElementChild.value;
     }
   }
-  chrome.storage.sync.set({classList: settings});
+  if (!browser.chrome) {
+    browser.storage.sync.set({classList: settings});
+  } else {
+    chrome.storage.sync.set({classList: settings});
+  }
 }
 
 // Saves the settings for the Total row on SIS
@@ -65,11 +69,19 @@ function saveTotalOptions() {
     "includeAdded": includeAdded
   };
   
-  chrome.storage.sync.set({"totalOptions": totalOptions});
+  if (!window.chrome) {
+    browser.storage.sync.set({"totalOptions": totalOptions})
+  } else {
+    chrome.storage.sync.set({"totalOptions": totalOptions});
+  }
 }
 
 function saveSettings() {
-  chrome.storage.sync.clear();
+  if (!window.chrome) {
+    browser.storage.sync.clear();
+  } else {
+    chrome.storage.sync.clear();
+  }
   saveClasses();
   saveTotalOptions();
   showNotif();
@@ -110,13 +122,24 @@ function displaySettings(settings) {
 }
 
 function restoreSettings() {
-  chrome.storage.sync.get({
-    "classList": [],
-    "totalOptions": {
-      "position": "above",
-      "includeAdded": false
-    },
-  }, displaySettings);
+  if (!window.chrome || !window.chrome.webstore) {
+    let getSettings = browser.storage.sync.get({
+      "classList": [],
+      "totalOptions": {
+        "position": "above",
+        "includeAdded": false
+      },
+    });
+    getSettings.then(displaySettings);
+  } else {
+    chrome.storage.sync.get({
+      "classList": [],
+      "totalOptions": {
+        "position": "above",
+        "includeAdded": false
+      },
+    }, displaySettings);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", restoreSettings);

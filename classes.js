@@ -23,13 +23,24 @@ function displaySettings(settings) {
   }
 }
 
-chrome.storage.sync.get({
-  "classList": [],
-  "totalOptions": {
-    "position": "above",
-    "includeAdded": false
-  }
-}, displaySettings);
+if (!window.chrome) {
+  let getOptions = browser.storage.sync.get({
+    "classList": [],
+    "totalOptions": {
+      "position": "above",
+      "includeAdded": false
+    }
+  });
+  getOptions.then(displaySettings);
+} else {
+  chrome.storage.sync.get({
+    "classList": [],
+    "totalOptions": {
+      "position": "above",
+      "includeAdded": false
+    }
+  }, displaySettings);
+}
 
 /**
  *  @param {Element} dataElement
